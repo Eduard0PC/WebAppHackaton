@@ -1,218 +1,216 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles2.css">
-  <title>Comandos de Voz</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" href="styles2.css">
+    <title>Comandos de Voz</title>
 </head>
-
 <body>
 
-  <header class="header">
+<header class="header">
     <div class="container">
       <div class="logo">
         <a href="#" id="logo-link">
           <img src="data/logo1.webp">
         </a>
-      </div>
-      <nav class="menu">
-        <label>
-          <a href="index.html">Cerrar Sesión</a>
-        </label>
-      </nav>
     </div>
-  </header>
+        <nav class="menu">
+          <label >
+            <a href="index.html">Cerrar Sesión</a>
+        </label>
+        </nav>
+    </div>
+</header>
 
-  <main class="content">
+<main class="content">
     <h1>Reconocimiento de Voz</h1>
     <p>Haz clic en el botón y habla para dar un comando por voz.</p>
-
+    
     <button id="startButton">Iniciar Reconocimiento de Voz</button>
     <button id="pauseButton">Pausar Reconocimiento de Voz</button>
 
     <div id="respuestas"></div>
     <div id="downloadMessage"></div>
     <div id="imageContainer"></div> <!-- Nuevo elemento para mostrar la imagen -->
-  </main>
+</main>
 
-  <script>
-    document.getElementById("logo-link").addEventListener("click", function (event) {
-      event.preventDefault(); // Prevenimos el comportamiento predeterminado del enlace
-      history.back(); // Navegamos a la página anterior
-    });
-    document.addEventListener('DOMContentLoaded', function () {
-      if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-        var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        var recognition = new SpeechRecognition();
-        var respuestasContainer = document.getElementById('respuestas');
+<script>
+document.getElementById("logo-link").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevenimos el comportamiento predeterminado del enlace
+    history.back(); // Navegamos a la página anterior
+});
 
-        recognition.continuous = true; // Reconocimiento continuo
-        recognition.interimResults = true; // Obtener resultados parciales mientras se habla
+document.addEventListener('DOMContentLoaded', function() {
+  if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var recognition = new SpeechRecognition();
+    var respuestasContainer = document.getElementById('respuestas');
+    
+    recognition.continuous = true; // Reconocimiento continuo
+    recognition.interimResults = true; // Obtener resultados parciales mientras se habla
 
-        recognition.lang = 'es';
-
-        recognition.onresult = function (event) {
-          var interim_transcript = '';
-          for (var i = event.resultIndex; i < event.results.length; ++i) {
-            if (event.results[i].isFinal) {
-              // Si es un resultado final, ejecutar la función de procesamiento de comandos
-              procesarComando(event.results[i][0].transcript);
-            } else {
-              // Si es un resultado parcial, puedes mostrarlo en tiempo real si lo deseas
-              interim_transcript += event.results[i][0].transcript;
-            }
-          }
-          // Puedes mostrar resultados parciales si lo deseas
-          console.log(interim_transcript);
-        };
-
-        // Iniciar el reconocimiento de voz automáticamente al cargar la página
-        recognition.start();
-
-        document.getElementById('pauseButton').addEventListener('click', function () {
-          recognition.abort(); // Pausar el reconocimiento de voz
-        });
+    recognition.lang = 'es'; 
+    
+    recognition.onresult = function(event) {
+      var interim_transcript = '';
+      for (var i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          // Si es un resultado final, ejecutar la función de procesamiento de comandos
+          procesarComando(event.results[i][0].transcript);
+        } else {
+          // Si es un resultado parcial, puedes mostrarlo en tiempo real si lo deseas
+          interim_transcript += event.results[i][0].transcript;
+        }
       }
+      // Puedes mostrar resultados parciales si lo deseas
+      console.log(interim_transcript);
+    };
+
+    // Iniciar el reconocimiento de voz automáticamente al cargar la página
+    recognition.start();
+
+    document.getElementById('pauseButton').addEventListener('click', function() {
+      recognition.abort(); // Pausar el reconocimiento de voz
     });
+  }
+});
 
-    // Función para procesar el comando reconocido
-    function procesarComando(comando) {
-      // Agregar la respuesta debajo del botón
-      var respuestasContainer = document.getElementById('respuestas');
-      var respuestaElement = document.createElement('p');
-      respuestaElement.textContent = 'Comando reconocido: ' + comando;
-      respuestasContainer.appendChild(respuestaElement);
+// Función para procesar el comando reconocido
+function procesarComando(comando) {
+  // Agregar la respuesta debajo del botón
+  var respuestasContainer = document.getElementById('respuestas');
+  var respuestaElement = document.createElement('p');
+  respuestaElement.textContent = 'Comando reconocido: ' + comando;
+  respuestasContainer.appendChild(respuestaElement);
 
-      // Llamar a la función que permite modificar el comportamiento
-      ejecutarAccion(comando);
-    }
+  // Llamar a la función que permite modificar el comportamiento
+  ejecutarAccion(comando);
+}
 
-    // Función para ejecutar diferentes acciones según el comando reconocido
-    function ejecutarAccion(comando) {
-      // Aquí puedes implementar diferentes acciones según el comando reconocido
-      // Por ejemplo:
-      if (comando.includes('Lateral izquierda', 'i')) {
-        abrirCamara(comando); // Pasar el comando como argumento
-      } else if (comando.includes('Lateral derecha', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Frontal', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Posterior', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Engomado', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Placas', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Tarjeta de circulación', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Herramientas del vehículo', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Herramientas de mano', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Llantas delanteras', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Llantas traseras', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Refacción', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Computadora', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Id empresa', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Licencia de conducir', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Equipo EPP', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('DC3 de líder', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('DC3 auxiliar', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Certificado Líder', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Certificado Auxiliar', 'i')) {
-        abrirCamara(comando);
-      } else if (comando.includes('Generador', 'i')) {
-        abrirCamara(comando);
-      } else {
-        // Si no coincide con ningún comando específico, puedes manejarlo aquí
-        console.log('Comando no reconocido: ' + comando);
-      }
-    }
+// Función para ejecutar diferentes acciones según el comando reconocido
+function ejecutarAccion(comando) {
+  // Aquí puedes implementar diferentes acciones según el comando reconocido
+  // Por ejemplo:
+  if (comando.includes('Lateral izquierda', 'i')) {
+    abrirCamara(comando); // Pasar el comando como argumento
+  } else if (comando.includes('Lateral derecha', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Frontal', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Posterior', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Engomado', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Placas', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Tarjeta de circulación', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Herramientas del vehículo', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Herramientas de mano', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Llantas delanteras', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Llantas traseras', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Refacción', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Computadora', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Id empresa', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Licencia de conducir', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Equipo EPP', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('DC3 de líder', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('DC3 auxiliar', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Certificado Líder', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Certificado Auxiliar', 'i')) {
+    abrirCamara(comando);
+  } else if (comando.includes('Generador', 'i')) {
+    abrirCamara(comando);
+  } else {
+    // Si no coincide con ningún comando específico, puedes manejarlo aquí
+    console.log('Comando no reconocido: ' + comando);
+  }
+}
 
-    // Ejemplo de acción: abrir la cámara y mostrar la imagen sin descargarla
-    function abrirCamara(comando) {
-      // Acceder a la cámara trasera y mostrar la imagen
-      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-        .then(function (stream) {
-          var video = document.createElement('video');
-          document.body.appendChild(video);
-          video.srcObject = stream;
+// Ejemplo de acción: abrir la cámara y mostrar la imagen sin descargarla
+function abrirCamara(comando) {
+  // Acceder a la cámara trasera y mostrar la imagen
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+    .then(function(stream) {
+      var video = document.createElement('video');
+      document.body.appendChild(video);
+      video.srcObject = stream;
 
-          // Mostrar la imagen al cargar la cámara
-          video.addEventListener('loadedmetadata', function () {
-            var canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            var context = canvas.getContext('2d');
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      // Mostrar la imagen al cargar la cámara
+      video.addEventListener('loadedmetadata', function() {
+        var canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        var context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            // Convertir la imagen a un blob
-            canvas.toBlob(function (blob) {
-              // Crear un objeto URL para la imagen
-              var imageUrl = URL.createObjectURL(blob);
+        // Convertir la imagen a un blob
+        canvas.toBlob(function(blob) {
+          // Crear un objeto URL para la imagen
+          var imageUrl = URL.createObjectURL(blob);
 
-              // Descargar la imagen automáticamente utilizando fetch
-              fetch(imageUrl)
-                .then(function (response) {
-                  return response.blob();
-                })
-                .then(function (imageBlob) {
-                  // Crear un objeto URL para el blob de la imagen
-                  var imageURL = URL.createObjectURL(imageBlob);
+          // Descargar la imagen automáticamente utilizando fetch
+          fetch(imageUrl)
+            .then(function(response) {
+              return response.blob();
+            })
+            .then(function(imageBlob) {
+              // Crear un objeto URL para el blob de la imagen
+              var imageURL = URL.createObjectURL(imageBlob);
 
-                  // Crear un enlace temporal para la descarga
-                  var link = document.createElement('a');
-                  link.href = imageURL;
-                  link.download = comando.replace(/\s+/g, '_') + '.png'; // Nombre del archivo
-                  link.style.display = 'none'; // Ocultar el enlace
-                  document.body.appendChild(link);
+              // Crear un enlace temporal para la descarga
+              var link = document.createElement('a');
+              link.href = imageURL;
+              link.download = comando.replace(/\s+/g, '_') + '.png'; // Nombre del archivo
+              link.style.display = 'none'; // Ocultar el enlace
+              document.body.appendChild(link);
 
-                  // Simular clic en el enlace para iniciar la descarga
-                  link.click();
+              // Simular clic en el enlace para iniciar la descarga
+              link.click();
 
-                  // Eliminar el enlace del DOM
-                  document.body.removeChild(link);
+              // Eliminar el enlace del DOM
+              document.body.removeChild(link);
 
-                  // Liberar el objeto URL
-                  URL.revokeObjectURL(imageURL);
-                });
-
-              // Mostrar la imagen en el contenedor de imágenes
-              var imageContainer = document.getElementById('imageContainer');
-              var imageElement = document.createElement('img');
-              imageElement.src = imageUrl;
-              imageContainer.innerHTML = ''; // Limpiar el contenedor de imágenes antes de agregar la nueva imagen
-              imageContainer.appendChild(imageElement);
+              // Liberar el objeto URL
+              URL.revokeObjectURL(imageURL);
             });
 
-            // Detener la reproducción de la cámara y limpiar los elementos creados
-            video.pause();
-            stream.getTracks().forEach(track => track.stop());
-            document.body.removeChild(video);
-            document.body.removeChild(canvas);
-          });
-
-          video.play();
-        })
-        .catch(function (err) {
-          console.log("Error al acceder a la cámara: " + err);
+          // Mostrar la imagen en el contenedor de imágenes
+          var imageContainer = document.getElementById('imageContainer');
+          var imageElement = document.createElement('img');
+          imageElement.src = imageUrl;
+          imageContainer.innerHTML = ''; // Limpiar el contenedor de imágenes antes de agregar la nueva imagen
+          imageContainer.appendChild(imageElement);
         });
-    }
 
-  </script>
+        // Detener la reproducción de la cámara y limpiar los elementos creados
+        video.pause();
+        stream.getTracks().forEach(track => track.stop());
+        document.body.removeChild(video);
+        document.body.removeChild(canvas);
+      });
+
+      video.play();
+    })
+    .catch(function(err) {
+      console.log("Error al acceder a la cámara: " + err);
+    });
+}
+
+</script>
 
 </body>
-
 </html>

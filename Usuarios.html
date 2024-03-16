@@ -10,9 +10,9 @@
     <header class="header">
 		<div class="container">
 			<div class="logo">
-				<a href="index.html"> <!-- Agregamos un enlace alrededor del logo -->
-					<img src="data/logo1.webp">
-				</a>
+				<a href="#" id="logo-link">
+                    <img src="data/logo1.webp">
+                </a>
 			</div>
 			<nav class="menu">
 				<label >
@@ -21,5 +21,11 @@
 			</nav>
 		</div>
 	</header>
+	<script>
+        document.getElementById("logo-link").addEventListener("click", function(event) {
+            event.preventDefault(); 
+            history.back();
+        });
+    </script>
 </body>
 </html>

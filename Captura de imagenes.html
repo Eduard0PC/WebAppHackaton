@@ -11,8 +11,8 @@
 <header class="header">
     <div class="container">
       <div class="logo">
-        <a href="#"> <!-- Agregamos un enlace alrededor del logo -->
-            <img src="data/logo1.webp">
+        <a href="#" id="logo-link">
+          <img src="data/logo1.webp">
         </a>
     </div>
         <nav class="menu">
@@ -36,6 +36,10 @@
 </main>
 
 <script>
+  document.getElementById("logo-link").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevenimos el comportamiento predeterminado del enlace
+    history.back(); // Navegamos a la página anterior
+  });
 document.addEventListener('DOMContentLoaded', function() {
   if ('webkitSpeechRecognition' in window) {
     var recognition = new webkitSpeechRecognition();
@@ -44,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
     recognition.continuous = true; // Reconocimiento continuo
     recognition.interimResults = true; // Obtener resultados parciales mientras se habla
 
-    recognition.lang = 'es'; // Establecer el idioma (puedes cambiar 'es' a otro idioma)
+    recognition.lang = 'es'; 
     
     recognition.onresult = function(event) {
       var interim_transcript = '';
@@ -86,47 +90,47 @@ function procesarComando(comando) {
 function ejecutarAccion(comando) {
   // Aquí puedes implementar diferentes acciones según el comando reconocido
   // Por ejemplo:
-  if (comando.includes('Lateral izquierda')) {
+  if (comando.includes('Lateral izquierda', 'i')) {
     abrirCamara(comando); // Pasar el comando como argumento
-  } else if (comando.includes('Lateral derecha')) {
+  } else if (comando.includes('Lateral derecha', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Frontal')) {
+  } else if (comando.includes('Frontal', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Posterior')) {
+  } else if (comando.includes('Posterior', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Engomado')) {
+  } else if (comando.includes('Engomado', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Placas')) {
+  } else if (comando.includes('Placas', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Tarjeta de circulación')) {
+  } else if (comando.includes('Tarjeta de circulación', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Herramientas del vehículo')) {
+  } else if (comando.includes('Herramientas del vehículo', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Herramientas de mano')) {
+  } else if (comando.includes('Herramientas de mano', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Llantas delanteras')) {
+  } else if (comando.includes('Llantas delanteras', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Llantas traseras')) {
+  } else if (comando.includes('Llantas traseras', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Refacción')) {
+  } else if (comando.includes('Refacción', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Computadora')) {
+  } else if (comando.includes('Computadora', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Id empresa')) {
+  } else if (comando.includes('Id empresa', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Licencia de conducir')) {
+  } else if (comando.includes('Licencia de conducir', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Equipo EPP')) {
+  } else if (comando.includes('Equipo EPP', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('DC3 de líder')) {
+  } else if (comando.includes('DC3 de líder', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('DC3 auxiliar')) {
+  } else if (comando.includes('DC3 auxiliar', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Certificado Líder')) {
+  } else if (comando.includes('Certificado Líder', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Certificado Auxiliar')) {
+  } else if (comando.includes('Certificado Auxiliar', 'i')) {
     abrirCamara(comando);
-  } else if (comando.includes('Generador')) {
+  } else if (comando.includes('Generador', 'i')) {
     abrirCamara(comando);
   } else {
     // Si no coincide con ningún comando específico, puedes manejarlo aquí

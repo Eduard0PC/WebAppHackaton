@@ -2,57 +2,106 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <title>ERA</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="data/logo1.webp">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<title>ERA</title>
+	<link rel="stylesheet" href="styles.css">
+	<link rel="icon" href="data/logo1.webp">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-    <header class="header">
-        <div class="container">
-            <div class="logo">
-                <img src="data/logo1.webp">
-            </div>
-            <nav class="menu">
-                <a href="/login">Iniciar Sesión</a> <!-- Enlace modificado para dirigir al inicio de sesión -->
-            </nav>
-        </div>
-    </header>
-    <div class="capa"></div>
+	<header class="header">
+		<div class="container">
+			<div class="logo">
+				<img src="data/logo1.webp">
+				
+			</div>
+			<nav class="menu">
+				<!--<a target="_blank" href="index.html">
+					<img src="img/icon1.png">Inicio</a>-->
+				<label for="btn-modal">
+					<a>Cerrar Sesión</a>
+				
+			</nav>
+		</div>
+	</header>
+	<div class="capa"></div>
+	
+	<!--Titulo de planes-->
+	<div class="title-cards">
+		<h2>Seleccione la opción</h2>
+	</div>
+	<!--Planes-->
+	<div class="container-card">
 
-    <!--Titulo de planes-->
-    <div class="title-cards">
-        <h2>Seleccione la opción</h2>
-    </div>
-    <!--Planes-->
-    <div class="container-card">
-
-        <div id="Reportes" class="card">
-            <figure>
-                <img src="data/report.webp">
-            </figure>
-            <div class="contenido-card">
-                <h3>Reportes</h3>
-                <p>Generar reporte</p>
-                <label>
-                    <a href="Reportes.html">Abrir</a>
-                </label>
-            </div>
-        </div>
-        <!-- Aquí continúa el resto de tu contenido -->
-    </div>
-
-    <!-- Tu script de JavaScript -->
-
-    <!--::::Pie de Pagina::::::-->
-
-    <footer class="pie-pagina">
-        <div class="grupo-2">
-            <small>&copy; 2024 <b>EJAD</b> - Todos los Derechos Reservados.</small>
-        </div>
-    </footer>
+		<div id="Reportes" class="card">
+			<figure>
+				<img src="data/report.webp">
+			</figure>
+			<div class="contenido-card">
+				<h3>Reportes</h3>
+				<p>Generar reporte</p>
+				<label >
+				<a href="Reportes.html">Abrir</a>
+				</label>
+			</div>
+		</div>
+		<div id="Captura de imagenes" class="card">
+			<figure>
+				<img src="data/camera.webp">
+			</figure>
+			<div class="contenido-card">
+				<h3>Captura de imagenes</h3>
+				<p>Tomar fotografias</p>
+				<label>
+				<a href="Captura de imagenes.html">Abrir</a>
+				</label>
+			</div>
+		</div>
+		<div id="Comandos de voz" class="card">
+			<figure>
+				<img src="data/mic.webp">
+			</figure>
+			<div class="contenido-card">
+				<h3>Comandos de voz</h3>
+				<p>Administrar comandos de voz</p>
+				<label for="btn-modal">
+				<a href="Comandos de voz.html">Abrir</a>
+				</label>
+			</div>
+		</div>
+		<div class="card">
+			<figure>
+				<img src="data/users.webp">
+			</figure>
+			<div id="Usuarios" class="contenido-card">
+				<h3>Usuarios</h3>
+				<p>Administrar usuarios</p>
+				<label for="btn-modal">
+				<a href="Usuarios.html">Abrir</a>
+				</label>
+			</div>
+		</div>
+	</div>
+	<script>
+		
+		window.location.href = '/decision';
+		window.addEventListener('scroll', function () {
+			var header = document.querySelector('.header');
+			if (window.scrollY > 0) {
+				header.classList.add('scrolled');
+			} else {
+				header.classList.remove('scrolled');
+			}
+		});
+	</script>
+	<!--::::Pie de Pagina::::::-->
+	<footer class="pie-pagina">
+	
+		<div class="grupo-2">
+			<small>&copy; 2024 <b>EJAD</b> - Todos los Derechos Reservados.</small>
+		</div>
+	</footer>
 </body>
 
-</html>
+</html> 

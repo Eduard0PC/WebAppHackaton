@@ -57,9 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log(interim_transcript);
     };
 
-    document.getElementById('startButton').addEventListener('click', function() {
-      recognition.start(); // Iniciar el reconocimiento de voz
-    });
+    // Iniciar el reconocimiento de voz automáticamente al cargar la página
+    recognition.start();
 
     document.getElementById('pauseButton').addEventListener('click', function() {
       recognition.abort(); // Pausar el reconocimiento de voz
@@ -86,7 +85,7 @@ function ejecutarAccion(comando) {
   if (comando.includes('Abrir')) {
     abrirCamara();
   } else if (comando.includes('cerrar')) {
-    abrirPagina();
+    cerarCamara()
   } else {
     // Si no coincide con ningún comando específico, puedes manejarlo aquí
     console.log('Comando no reconocido: ' + comando);

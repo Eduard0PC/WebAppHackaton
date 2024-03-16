@@ -66,7 +66,7 @@ body {
 }
 
 .logo img {
-	height: 97px;
+	height: 70px;
 	margin-right: 0px;
 	margin-top: 10px;
 	display: flex;
@@ -104,14 +104,14 @@ body {
 	color: #838383;
 	transition: all 0.3s ease;
 	border-bottom: 2px solid transparent;
-	font-size: 13px;
+	font-size: 20px;
 	margin-right: 5px;
 	font-family: 'Consolas';
 	letter-spacing: 2px;
 }
 
 .container .menu a:hover {
-	border-bottom: 2px solid #4aebd0;
+	border-bottom: 2px solid #ca9626;
 	padding-bottom: 5px;
 }
 
@@ -240,10 +240,10 @@ body {
 
 
 	.logo img {
-		margin-right: 0;
-		margin-left: 5px;
-		width: 10vh;
-		height: 10vh;
+		margin-right: 10px;
+		margin-left: 0px;
+		width: auto;
+		height: 20vh;
 	}
 
 	.btn-menu img {
@@ -258,7 +258,7 @@ body {
 		max-width: 1080px;
 		margin: auto;
 		padding: 20px;
-		margin-top: 20px;
+		margin-top: 200px;
 		text-align: center;
 		color: whitesmoke;
 	}
@@ -285,11 +285,11 @@ body {
 }
 
 .pie-pagina .grupo-2 {
-	background-color: #838383;
+	background-color: #ca9626;
 	padding: 15px 10px;
 	text-align: center;
 	color: #fff;
-	box-shadow: 0 0 10px #ca9626, 0 0 40px #ca9626, 0 0 80px #ca9626;
+	box-shadow: 0 0 10px #838383, 0 0 40px #838383, 0 0 80px #838383;
 }
 
 .pie-pagina .grupo-2 small {

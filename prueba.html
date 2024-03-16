@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Subir Imágenes desde Pixabay</title>
+    <style>
+        /* Estilos para mostrar las imágenes */
+        #gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .image-item {
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+        }
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Subir Imágenes desde Pixabay</h1>
+    <input type="text" id="searchTerm" placeholder="Buscar imágenes">
+    <button onclick="searchImages()">Buscar</button>
+    <div id="gallery"></div>
+
+    <script>
+        function searchImages() {
+            // Limpia el contenido del div de la galería
+            document.getElementById("gallery").innerHTML = "";
+
+            // Obtiene el término de búsqueda del input
+            var searchTerm = document.getElementById("searchTerm").value;
+
+            // Verifica si se proporciona un término de búsqueda
+            if (!searchTerm) {
+                alert("Por favor, ingrese un término de búsqueda.");
+                return;
+            }
+
+            // Realiza una solicitud a la API de Pixabay
+            var apiKey = 'YOUR_API_KEY'; // Reemplaza 'YOUR_API_KEY' con tu clave de API de Pixabay
+            var url = 'https://pixabay.com/api/?key=' + apiKey + '&q=' + encodeURIComponent(searchTerm);
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // Recorre los resultados y muestra las imágenes en la galería
+                    data.hits.forEach(image => {
+                        var gallery = document.getElementById("gallery");
+                        var imageItem = document.createElement("div");
+                        imageItem.classList.add("image-item");
+                        var img = document.createElement("img");
+                        img.src = image.previewURL;
+                        img.alt = image.tags;
+                        imageItem.appendChild(img);
+                        gallery.appendChild(imageItem);
+                    });
+                })
+                .catch(error => console.error('Error al obtener imágenes:', error));
+        }
+    </script>
+</body>
+
+</html>

@@ -2,24 +2,50 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles2.css">
     <title>Reportes</title>
 </head>
 <body>
     <header class="header">
-		<div class="container">
-			<div class="logo">
-				<img src="data/logo1.webp">
-				
-			</div>
-			<nav class="menu">
-				<!--<a target="_blank" href="index.html">
-					<img src="img/icon1.png">Inicio</a>-->
-				<label for="btn-modal">
-					<a>Cerrar Sesión</a>
-				
-			</nav>
-		</div>
-	</header>
+        <div class="container">
+            <div class="logo">
+                <img src="data/logo1.webp">
+            </div>
+            <nav class="menu">
+                <!--<a target="_blank" href="index.html">
+                    <img src="img/icon1.png">Inicio</a>-->
+                <label for="btn-modal">
+                    <a>Cerrar Sesión</a>
+                </label>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content">
+        <h1>Subir Imágenes</h1>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" id="fileInput" name="fileInput" accept="image/*" onchange="displayFileInfo()">
+            <p id="fileName"></p>
+            <p id="currentDateTime"></p>
+            <button type="submit">Subir Imagen</button>
+        </form>
+    </main>
+
+    <script>
+        function displayFileInfo() {
+            const fileInput = document.getElementById('fileInput');
+            const fileNameDisplay = document.getElementById('fileName');
+            const currentDateTimeDisplay = document.getElementById('currentDateTime');
+
+            // Obtener el nombre del archivo seleccionado
+            const fileName = fileInput.files[0].name;
+            fileNameDisplay.textContent = 'Comando de voz: ' + fileName;
+
+            // Obtener la fecha y hora actual
+            const currentDateTime = new Date();
+            const formattedDateTime = currentDateTime.toLocaleString('es-ES');
+            currentDateTimeDisplay.textContent = 'Fecha y hora : ' + formattedDateTime;
+        }
+    </script>
 </body>
 </html>

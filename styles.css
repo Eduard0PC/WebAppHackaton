@@ -8,13 +8,7 @@
 }
 
 body {
-	background: #44A08D;
-	/* fallback for old browsers */
-	background: -webkit-linear-gradient(to right, #7a3d2a, #44A08D);
-	background-color: #ffffff;
-	/* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to right, #093637, #44A08D);
-	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	background-color: transparent;
 	background-size: cover;
 	background-repeat: no-repeat;
 }
@@ -51,7 +45,7 @@ body {
 	line-height: 100px;
 	letter-spacing: 15px;
 	font-family: 'Consolas';
-	text-shadow: 2.5px 0px 10px #0dc98d;
+	text-shadow: 2.5px 0px 10px #f1a708;
 }
 
 .container .btn-menu label {
@@ -260,7 +254,7 @@ body {
 		padding: 20px;
 		margin-top: 200px;
 		text-align: center;
-		color: whitesmoke;
+		color: rgb(0, 0, 0);
 	}
 
 	.container-card {
@@ -275,13 +269,7 @@ body {
 /*:::::Pie de Pagina*/
 .pie-pagina {
 	width: 100%;
-	background: #093637;
-	/* fallback for old browsers */
-	background: -webkit-linear-gradient(to top, #00100d, #093637);
-	/* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to top, #100f00, #093637);
-	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+	background-color: transparent;
 }
 
 .pie-pagina .grupo-2 {

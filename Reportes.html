@@ -23,30 +23,64 @@
 
     <main class="content">
         <h1>Subir Imágenes</h1>
-        <form id="uploadForm" enctype="multipart/form-data">
-            <input type="file" id="fileInput" name="fileInput" accept="image/*" onchange="displayFileInfo()">
-            <p id="fileName"></p>
-            <p id="currentDateTime"></p>
-            <button type="submit">Subir Imagen</button>
+        <form id="uploadForm">
+            <input type="file" id="fileInput" name="fileInput" accept="image/*" multiple onchange="displayFileInfo()">
+            <div id="imagePreview"></div>
+            <button type="button" onclick="submitForm()">Descargar Excel</button>
         </form>
+        <div id="result"></div>
     </main>
 
     <script>
+        let imagesData = [];
+
         function displayFileInfo() {
             const fileInput = document.getElementById('fileInput');
-            const fileNameDisplay = document.getElementById('fileName');
-            const currentDateTimeDisplay = document.getElementById('currentDateTime');
+            const imagePreview = document.getElementById('imagePreview');
 
-            // Obtener el nombre del archivo seleccionado
-            const fileName = fileInput.files[0].name;
-            fileNameDisplay.textContent = 'Comando de voz: ' + fileName;
+            // Limpiar cualquier imagen previa
+            imagePreview.innerHTML = '';
+            imagesData = [];
 
-            // Obtener la fecha y hora actual
-            const currentDateTime = new Date();
-            const formattedDateTime = currentDateTime.toLocaleString('es-ES');
-            currentDateTimeDisplay.textContent = 'Fecha y hora : ' + formattedDateTime;
+            // Mostrar las imágenes previas y guardar los datos
+            for (const file of fileInput.files) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = document.createElement('img');
+                    img.src = event.target.result;
+                    img.style.maxWidth = '200px'; // Ajustar el tamaño de la imagen según sea necesario
+                    imagePreview.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+
+                // Guardar los datos del archivo
+                const fileName = file.name;
+                const currentDateTime = new Date().toLocaleString('es-ES');
+                imagesData.push({ fileName, currentDateTime });
+            }
+        }
+
+        function submitForm() {
+            // Crear el contenido CSV
+            let csvContent = "data:text/csv;charset=utf-8,";
+
+            // Encabezados del archivo CSV
+            csvContent += "Nombre del archivo,Fecha y hora\n";
+
+            // Agregar datos de cada imagen a la lista CSV
+            imagesData.forEach(image => {
+                csvContent += `${image.fileName},${image.currentDateTime}\n`;
+            });
+
+            // Crear un elemento de enlace para descargar el archivo CSV
+            const link = document.createElement('a');
+            link.setAttribute('href', encodeURI(csvContent));
+            link.setAttribute('download', 'reporte.csv');
+            document.body.appendChild(link);
+
+            // Simular clic en el enlace para descargar el archivo
+            link.click();
         }
     </script>
 </body>
 </html>
- 

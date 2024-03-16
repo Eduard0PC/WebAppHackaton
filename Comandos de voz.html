@@ -33,6 +33,13 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+  // Reproducir un video automáticamente al cargar la página
+  var video = document.createElement('video');
+  video.src = 'video.mp4'; // Ruta del video local o en línea
+  video.autoplay = true;
+  video.loop = true;
+  document.body.appendChild(video);
+
   if ('webkitSpeechRecognition' in window) {
     var recognition = new webkitSpeechRecognition();
     var respuestasContainer = document.getElementById('respuestas');
@@ -57,8 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log(interim_transcript);
     };
 
-    // Iniciar el reconocimiento de voz automáticamente al cargar la página
-    recognition.start();
+    recognition.start(); // Iniciar el reconocimiento de voz automáticamente
 
     document.getElementById('pauseButton').addEventListener('click', function() {
       recognition.abort(); // Pausar el reconocimiento de voz
@@ -82,10 +88,10 @@ function procesarComando(comando) {
 function ejecutarAccion(comando) {
   // Aquí puedes implementar diferentes acciones según el comando reconocido
   // Por ejemplo:
-  if (comando.includes('Abrir')) {
+  if (comando.includes('Capturar')) {
     abrirCamara();
   } else if (comando.includes('cerrar')) {
-    cerarCamara()
+    cerrarCamara()
   } else {
     // Si no coincide con ningún comando específico, puedes manejarlo aquí
     console.log('Comando no reconocido: ' + comando);

@@ -2,24 +2,122 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="styles.css">
-    <title>Reportes</title>
+    <title>Comandos de Voz</title>
 </head>
 <body>
-    <header class="header">
-		<div class="container">
-			<div class="logo">
-				<img src="data/logo1.webp">
-				
-			</div>
-			<nav class="menu">
-				<!--<a target="_blank" href="index.html">
-					<img src="img/icon1.png">Inicio</a>-->
-				<label for="btn-modal">
-					<a>Cerrar Sesión</a>
-				
-			</nav>
-		</div>
-	</header>
+
+<main class="content">
+    <h1>Reconocimiento de Voz</h1>
+    <p>Haz clic en el botón y habla para dar un comando por voz.</p>
+    
+    <button id="startButton">Iniciar Reconocimiento de Voz</button>
+    <button id="pauseButton">Pausar Reconocimiento de Voz</button>
+
+    <div id="respuestas"></div>
+
+    <h2>Configuración de Comandos</h2>
+    <form id="comandosForm">
+        <label for="comando">Comando:</label>
+        <input type="text" id="comando" name="comando" required>
+        <label for="accion">Acción:</label>
+        <input type="text" id="accion" name="accion" required>
+        <button type="submit">Agregar Comando</button>
+    </form>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if ('webkitSpeechRecognition' in window) {
+    var recognition = new webkitSpeechRecognition();
+    var respuestasContainer = document.getElementById('respuestas');
+    
+    recognition.continuous = true; // Reconocimiento continuo
+    recognition.interimResults = true; // Obtener resultados parciales mientras se habla
+
+    recognition.lang = 'es'; // Establecer el idioma (puedes cambiar 'es' a otro idioma)
+    
+    recognition.onresult = function(event) {
+      var interim_transcript = '';
+      for (var i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          // Si es un resultado final, ejecutar la función de procesamiento de comandos
+          procesarComando(event.results[i][0].transcript);
+        } else {
+          // Si es un resultado parcial, puedes mostrarlo en tiempo real si lo deseas
+          interim_transcript += event.results[i][0].transcript;
+        }
+      }
+      // Puedes mostrar resultados parciales si lo deseas
+      console.log(interim_transcript);
+    };
+
+    // Iniciar el reconocimiento de voz automáticamente al cargar la página
+    recognition.start();
+
+    document.getElementById('pauseButton').addEventListener('click', function() {
+      recognition.abort(); // Pausar el reconocimiento de voz
+    });
+  }
+
+  // Agregar evento submit al formulario para agregar nuevos comandos
+  document.getElementById('comandosForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var comando = document.getElementById('comando').value.trim();
+    var accion = document.getElementById('accion').value.trim();
+    if (comando && accion) {
+      agregarComando(comando, accion);
+      alert('Comando agregado correctamente.');
+    } else {
+      alert('Por favor, ingresa un comando y una acción.');
+    }
+    this.reset(); // Reiniciar el formulario
+  });
+});
+
+// Función para procesar el comando reconocido
+function procesarComando(comando) {
+  // Agregar la respuesta debajo del botón
+  var respuestasContainer = document.getElementById('respuestas');
+  var respuestaElement = document.createElement('p');
+  respuestaElement.textContent = 'Comando reconocido: ' + comando;
+  respuestasContainer.appendChild(respuestaElement);
+
+  // Llamar a la función que permite modificar el comportamiento
+  ejecutarAccion(comando);
+}
+
+// Función para ejecutar diferentes acciones según el comando reconocido
+function ejecutarAccion(comando) {
+  // Aquí puedes implementar diferentes acciones según el comando reconocido
+  // Por ejemplo:
+  if (comando.includes('Capturar')) {
+    abrirCamara();
+  } else if (comando.includes('cerrar')) {
+    cerrarCamara();
+  } else {
+    // Si no coincide con ningún comando específico, puedes manejarlo aquí
+    console.log('Comando no reconocido: ' + comando);
+  }
+}
+
+// Ejemplo de acción: abrir la cámara y tomar una foto
+function abrirCamara() {
+  console.log('Acción: Abrir cámara');
+  // Aquí puedes escribir el código para abrir la cámara y tomar una foto
+}
+
+// Ejemplo de acción: cerrar la cámara
+function cerrarCamara() {
+  console.log('Acción: Cerrar cámara');
+  // Aquí puedes escribir el código para cerrar la cámara
+}
+
+// Función para agregar un nuevo comando y acción al reconocimiento de voz
+function agregarComando(comando, accion) {
+  // Agregar lógica para almacenar el nuevo comando y acción
+  console.log('Nuevo comando:', comando, '- Acción:', accion);
+}
+</script>
+
 </body>
 </html>

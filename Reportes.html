@@ -13,10 +13,8 @@
                 <img src="data/logo1.webp">
             </div>
             <nav class="menu">
-                <!--<a target="_blank" href="index.html">
-                    <img src="img/icon1.png">Inicio</a>-->
-                <label for="btn-modal">
-                    <a>Cerrar Sesión</a>
+                <label>
+                    <a href="index.html">Cerrar Sesión</a>
                 </label>
             </nav>
         </div>
@@ -27,7 +25,7 @@
         <form id="uploadForm">
             <input type="file" id="fileInput" name="fileInput" accept="image/*" multiple onchange="displayFileInfo()">
             <div id="imagePreview"></div>
-            <button type="button" onclick="submitForm()">Descargar Excel</button>
+            <button type="button" onclick="downloadZip()">Descargar ZIP</button>
         </form>
         <div id="result"></div>
     </main>
@@ -57,30 +55,54 @@
                 // Guardar los datos del archivo
                 const fileName = file.name;
                 const currentDateTime = new Date().toLocaleString('es-ES');
-                imagesData.push({ fileName, currentDateTime });
+                const randomName = generateRandomName();
+                const randomLastName = generateRandomLastName();
+                imagesData.push({ file, fileName, currentDateTime, randomName, randomLastName });
             }
         }
+        
+        function generateRandomName() {
+            const names = ["Juan", "Maria", "Jose", "Ana", "Pedro", "Lucia", "Diego", "Sofia", "Carlos", "Laura"];
+            return names[Math.floor(Math.random() * names.length)];
+        }
 
-        function submitForm() {
-            // Crear el contenido CSV
-            let csvContent = "data:text/csv;charset=utf-8,";
+        function generateRandomLastName() {
+            const lastNames = ["Gomez", "Fernandez", "Lopez", "Diaz", "Martinez", "Perez", "Gonzalez", "Sanchez", "Romero", "Suarez"];
+            return lastNames[Math.floor(Math.random() * lastNames.length)];
+        }
 
-            // Encabezados del archivo CSV
-            csvContent += "Nombre del archivo,Fecha y hora\n";
+        function downloadZip() {
+            // Crear un nuevo objeto de archivo ZIP
+            const zip = new JSZip();
 
-            // Agregar datos de cada imagen a la lista CSV
+            // Agregar las imágenes al archivo ZIP
             imagesData.forEach(image => {
-                csvContent += `${image.fileName},${image.currentDateTime}\n`;
+                zip.file(image.fileName, image.file);
             });
 
-            // Crear un elemento de enlace para descargar el archivo CSV
-            const link = document.createElement('a');
-            link.setAttribute('href', encodeURI(csvContent));
-            link.setAttribute('download', 'reporte.csv');
-            document.body.appendChild(link);
+            // Crear el contenido CSV
+            let csvContent = "Nombre del archivo,Fecha, hora,Nombre de usuario\n";
 
-            // Simular clic en el enlace para descargar el archivo
-            link.click();
+            // Agregar datos de cada imagen al archivo CSV
+            imagesData.forEach(image => {
+                const fullName = `${image.randomName} ${image.randomLastName}`;
+                csvContent += `${image.fileName},${image.currentDateTime},${fullName}\n`;
+            });
+
+            // Agregar el archivo CSV al archivo ZIP
+            zip.file('reporte.csv', csvContent);
+
+            // Generar el archivo ZIP y proporcionar un enlace para descargarlo
+            zip.generateAsync({ type: "blob" }).then(function(content) {
+                // Crear un elemento de enlace para descargar el archivo ZIP
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(content);
+                link.setAttribute('download', 'reporte_imagenes.zip');
+                document.body.appendChild(link);
+
+                // Simular clic en el enlace para descargar el archivo
+                link.click();
+            });
         }
     </script>
 </body>

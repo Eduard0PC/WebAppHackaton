@@ -140,8 +140,8 @@ function ejecutarAccion(comando) {
 
 // Ejemplo de acción: abrir la cámara y mostrar la imagen sin descargarla
 function abrirCamara(comando) {
-  // Acceder a la cámara y mostrar la imagen
-  navigator.mediaDevices.getUserMedia({ video: true })
+  // Acceder a la cámara trasera y mostrar la imagen
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
     .then(function(stream) {
       var video = document.createElement('video');
       document.body.appendChild(video);

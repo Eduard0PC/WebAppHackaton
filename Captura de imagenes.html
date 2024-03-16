@@ -42,8 +42,8 @@ document.getElementById("logo-link").addEventListener("click", function(event) {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-  if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition || window.oSpeechRecognition;
+  if (SpeechRecognition) {
     var recognition = new SpeechRecognition();
     var respuestasContainer = document.getElementById('respuestas');
     
@@ -73,6 +73,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('pauseButton').addEventListener('click', function() {
       recognition.abort(); // Pausar el reconocimiento de voz
     });
+  } else {
+    console.log('El reconocimiento de voz no es compatible con este navegador.');
   }
 });
 
@@ -142,74 +144,78 @@ function ejecutarAccion(comando) {
 
 // Ejemplo de acción: abrir la cámara y mostrar la imagen sin descargarla
 function abrirCamara(comando) {
-  // Acceder a la cámara trasera y mostrar la imagen
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-    .then(function(stream) {
-      var video = document.createElement('video');
-      document.body.appendChild(video);
-      video.srcObject = stream;
+  // Comprobar si getUserMedia está disponible
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    // Acceder a la cámara trasera y mostrar la imagen
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+      .then(function(stream) {
+        var video = document.createElement('video');
+        document.body.appendChild(video);
+        video.srcObject = stream;
 
-      // Mostrar la imagen al cargar la cámara
-      video.addEventListener('loadedmetadata', function() {
-        var canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        var context = canvas.getContext('2d');
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        // Mostrar la imagen al cargar la cámara
+        video.addEventListener('loadedmetadata', function() {
+          var canvas = document.createElement('canvas');
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          var context = canvas.getContext('2d');
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-        // Convertir la imagen a un blob
-        canvas.toBlob(function(blob) {
-          // Crear un objeto URL para la imagen
-          var imageUrl = URL.createObjectURL(blob);
+          // Convertir la imagen a un blob
+          canvas.toBlob(function(blob) {
+            // Crear un objeto URL para la imagen
+            var imageUrl = URL.createObjectURL(blob);
 
-          // Descargar la imagen automáticamente utilizando fetch
-          fetch(imageUrl)
-            .then(function(response) {
-              return response.blob();
-            })
-            .then(function(imageBlob) {
-              // Crear un objeto URL para el blob de la imagen
-              var imageURL = URL.createObjectURL(imageBlob);
+            // Descargar la imagen automáticamente utilizando fetch
+            fetch(imageUrl)
+              .then(function(response) {
+                return response.blob();
+              })
+              .then(function(imageBlob) {
+                // Crear un objeto URL para el blob de la imagen
+                var imageURL = URL.createObjectURL(imageBlob);
 
-              // Crear un enlace temporal para la descarga
-              var link = document.createElement('a');
-              link.href = imageURL;
-              link.download = comando.replace(/\s+/g, '_') + '.png'; // Nombre del archivo
-              link.style.display = 'none'; // Ocultar el enlace
-              document.body.appendChild(link);
+                // Crear un enlace temporal para la descarga
+                var link = document.createElement('a');
+                link.href = imageURL;
+                link.download = comando.replace(/\s+/g, '_') + '.png'; // Nombre del archivo
+                link.style.display = 'none'; // Ocultar el enlace
+                document.body.appendChild(link);
 
-              // Simular clic en el enlace para iniciar la descarga
-              link.click();
+                // Simular clic en el enlace para iniciar la descarga
+                link.click();
 
-              // Eliminar el enlace del DOM
-              document.body.removeChild(link);
+                // Eliminar el enlace del DOM
+                document.body.removeChild(link);
 
-              // Liberar el objeto URL
-              URL.revokeObjectURL(imageURL);
-            });
+                // Liberar el objeto URL
+                URL.revokeObjectURL(imageURL);
+              });
 
-          // Mostrar la imagen en el contenedor de imágenes
-          var imageContainer = document.getElementById('imageContainer');
-          var imageElement = document.createElement('img');
-          imageElement.src = imageUrl;
-          imageContainer.innerHTML = ''; // Limpiar el contenedor de imágenes antes de agregar la nueva imagen
-          imageContainer.appendChild(imageElement);
+            // Mostrar la imagen en el contenedor de imágenes
+            var imageContainer = document.getElementById('imageContainer');
+            var imageElement = document.createElement('img');
+            imageElement.src = imageUrl;
+            imageContainer.innerHTML = ''; // Limpiar el contenedor de imágenes antes de agregar la nueva imagen
+            imageContainer.appendChild(imageElement);
+          });
+
+          // Detener la reproducción de la cámara y limpiar los elementos creados
+          video.pause();
+          stream.getTracks().forEach(track => track.stop());
+          document.body.removeChild(video);
+          document.body.removeChild(canvas);
         });
 
-        // Detener la reproducción de la cámara y limpiar los elementos creados
-        video.pause();
-        stream.getTracks().forEach(track => track.stop());
-        document.body.removeChild(video);
-        document.body.removeChild(canvas);
+        video.play();
+      })
+      .catch(function(err) {
+        console.log("Error al acceder a la cámara: " + err);
       });
-
-      video.play();
-    })
-    .catch(function(err) {
-      console.log("Error al acceder a la cámara: " + err);
-    });
+  } else {
+    console.log('getUserMedia no es compatible con este navegador.');
+  }
 }
-
 </script>
 
 </body>

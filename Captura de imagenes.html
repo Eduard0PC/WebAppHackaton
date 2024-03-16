@@ -33,6 +33,7 @@
     <div id="respuestas"></div>
     <div id="downloadMessage"></div>
     <div id="imageContainer"></div> <!-- Nuevo elemento para mostrar la imagen -->
+    <div id="geolocationInfo"></div> <!-- Nuevo elemento para mostrar la geolocalización -->
 </main>
 
 <script>
@@ -42,40 +43,47 @@ document.getElementById("logo-link").addEventListener("click", function(event) {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition || window.oSpeechRecognition;
-  if (SpeechRecognition) {
-    var recognition = new SpeechRecognition();
-    var respuestasContainer = document.getElementById('respuestas');
-    
-    recognition.continuous = true; // Reconocimiento continuo
-    recognition.interimResults = true; // Obtener resultados parciales mientras se habla
+  var recognition = null;
 
-    recognition.lang = 'es'; 
-    
-    recognition.onresult = function(event) {
-      var interim_transcript = '';
-      for (var i = event.resultIndex; i < event.results.length; ++i) {
-        if (event.results[i].isFinal) {
-          // Si es un resultado final, ejecutar la función de procesamiento de comandos
-          procesarComando(event.results[i][0].transcript);
-        } else {
-          // Si es un resultado parcial, puedes mostrarlo en tiempo real si lo deseas
-          interim_transcript += event.results[i][0].transcript;
-        }
-      }
-      // Puedes mostrar resultados parciales si lo deseas
-      console.log(interim_transcript);
-    };
-
-    // Iniciar el reconocimiento de voz automáticamente al cargar la página
-    recognition.start();
-
-    document.getElementById('pauseButton').addEventListener('click', function() {
-      recognition.abort(); // Pausar el reconocimiento de voz
-    });
+  if ('webkitSpeechRecognition' in window) {
+    recognition = new webkitSpeechRecognition();
+  } else if ('SpeechRecognition' in window) {
+    recognition = new SpeechRecognition();
   } else {
     console.log('El reconocimiento de voz no es compatible con este navegador.');
+    return;
   }
+
+  var respuestasContainer = document.getElementById('respuestas');
+  
+  recognition.continuous = true; // Reconocimiento continuo
+  recognition.interimResults = true; // Obtener resultados parciales mientras se habla
+
+  recognition.lang = 'es'; 
+  
+  recognition.onresult = function(event) {
+    var interim_transcript = '';
+    for (var i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        // Si es un resultado final, ejecutar la función de procesamiento de comandos
+        procesarComando(event.results[i][0].transcript);
+      } else {
+        // Si es un resultado parcial, puedes mostrarlo en tiempo real si lo deseas
+        interim_transcript += event.results[i][0].transcript;
+      }
+    }
+    // Puedes mostrar resultados parciales si lo deseas
+    console.log(interim_transcript);
+  };
+
+  // Iniciar el reconocimiento de voz automáticamente al cargar la página
+  recognition.start();
+
+  document.getElementById('pauseButton').addEventListener('click', function() {
+    if (recognition) {
+      recognition.abort(); // Pausar el reconocimiento de voz
+    }
+  });
 });
 
 // Función para procesar el comando reconocido
@@ -161,36 +169,24 @@ function abrirCamara(comando) {
           var context = canvas.getContext('2d');
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
+          // Obtener la geolocalización del dispositivo
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+              var latitude = position.coords.latitude;
+              var longitude = position.coords.longitude;
+
+              // Agregar la geolocalización debajo de la imagen
+              var geolocationInfo = document.getElementById('geolocationInfo');
+              geolocationInfo.textContent = 'Latitud: ' + latitude + ', Longitud: ' + longitude;
+            });
+          } else {
+            console.log('La geolocalización no es compatible con este navegador.');
+          }
+
           // Convertir la imagen a un blob
           canvas.toBlob(function(blob) {
             // Crear un objeto URL para la imagen
             var imageUrl = URL.createObjectURL(blob);
-
-            // Descargar la imagen automáticamente utilizando fetch
-            fetch(imageUrl)
-              .then(function(response) {
-                return response.blob();
-              })
-              .then(function(imageBlob) {
-                // Crear un objeto URL para el blob de la imagen
-                var imageURL = URL.createObjectURL(imageBlob);
-
-                // Crear un enlace temporal para la descarga
-                var link = document.createElement('a');
-                link.href = imageURL;
-                link.download = comando.replace(/\s+/g, '_') + '.png'; // Nombre del archivo
-                link.style.display = 'none'; // Ocultar el enlace
-                document.body.appendChild(link);
-
-                // Simular clic en el enlace para iniciar la descarga
-                link.click();
-
-                // Eliminar el enlace del DOM
-                document.body.removeChild(link);
-
-                // Liberar el objeto URL
-                URL.revokeObjectURL(imageURL);
-              });
 
             // Mostrar la imagen en el contenedor de imágenes
             var imageContainer = document.getElementById('imageContainer');

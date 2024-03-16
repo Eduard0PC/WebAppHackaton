@@ -10,7 +10,8 @@
 body {
 	background: #44A08D;
 	/* fallback for old browsers */
-	background: -webkit-linear-gradient(to right, #093637, #44A08D);
+	background: -webkit-linear-gradient(to right, #7a3d2a, #44A08D);
+	background-color: #ffffff;
 	/* Chrome 10-25, Safari 5.1-6 */
 	background: linear-gradient(to right, #093637, #44A08D);
 	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -122,7 +123,7 @@ body {
 	position: absolute;
 	top: 0;
 	left: 0;
-	background: rgba(0, 0, 0, 0.6);
+	background: rgba(255, 255, 255, 0.863);
 }
 
 /*Modelos*/
@@ -150,14 +151,14 @@ body {
 	margin: 20px;
 	border-radius: 6px;
 	overflow: hidden;
-	background: #062122;
+	background: #838383;
 	box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
 	transition: all 400ms ease-out;
 	cursor: default;
 }
 
 .card:hover {
-	box-shadow: 15px 15px 20px #10ccb3;
+	box-shadow: 15px 15px 20px #ca9626;
 	transform: translateY(-3%);
 }
 
@@ -190,15 +191,15 @@ body {
 	padding: 10px;
 	margin-top: 10px;
 	text-decoration: none;
-	color: #0dc98d;
-	border: 1px solid #0dc98d;
+	color: #815c0d;
+	border: 1px solid #815c0d;
 	border-radius: 4px;
 	transition: all 400ms ease;
 	margin-bottom: 5px;
 }
 
 .card .contenido-card a:hover {
-	background: #0dc98d;
+	background: #ca9626;
 	color: #fff;
 }
 
@@ -208,7 +209,7 @@ body {
 }
 
 .header.scrolled {
-	background-color: rgba(5, 26, 21, 0.93);
+	background-color: rgba(255, 255, 255, 0.863);
 }
 
 @media only screen and (max-width: 768px) {
@@ -277,63 +278,9 @@ body {
 	/* fallback for old browsers */
 	background: -webkit-linear-gradient(to top, #00100d, #093637);
 	/* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to top, #00100d, #093637);
+	background: linear-gradient(to top, #100f00, #093637);
 	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-}
-
-.pie-pagina .grupo-1 {
-	width: 100%;
-	max-width: 1200px;
-	margin: auto;
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	grid-gap: 50px;
-	padding: 45px 0px;
-}
-
-.pie-pagina .grupo-1 .box figure {
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.pie-pagina .grupo-1 .box figure img {
-	width: 150px;
-}
-
-.pie-pagina .grupo-1 .box h2 {
-	color: #fff;
-	margin-bottom: 25px;
-	font-size: 20px;
-}
-
-.pie-pagina .grupo-1 .box p {
-	color: #efefef;
-	margin-bottom: 10px;
-	font-size: 15px;
-}
-
-.pie-pagina .grupo-1 .red-social a {
-	display: inline-block;
-	text-decoration: none;
-	width: 45px;
-	height: 45px;
-	line-height: 45px;
-	color: #fff;
-	margin-right: 10px;
-	text-align: center;
-	transition: all 300ms ease;
-}
-
-.pie-pagina .grupo-1 .red-social a:hover {
-	background: #10ccb3;
-	box-shadow: 0 0 10px #10ccb3, 0 0 40px #10ccb3, 0 0 80px #10ccb3;
-	transition-delay: none;
-	color: #fff;
-	border-radius: 10px;
 }
 
 .pie-pagina .grupo-2 {
@@ -348,117 +295,14 @@ body {
 	font-size: 15px;
 }
 
-.pie-pagina .grupo-1 .box img {
-	width: 45px;
+
+.startButton{
+	padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
-
-@media screen and (max-width:800px) {
-	.pie-pagina .grupo-1 {
-		width: 90%;
-		grid-template-columns: repeat(1, 1fr);
-		grid-gap: 30px;
-		padding: 35px 0px;
-	}
-
-	.pie-pagina .grupo-1 .box img {
-		width: 45px;
-	}
-
-	.pie-pagina .grupo-1 .box figure img {
-		width: 50px;
-	}
-}
-/*:::Ventana Modal:::*/
-#btn-modal {
-	display: none;
-}
-
-.container-modal {
-	width: 100%;
-	height: 100vh;
-	position: fixed;
-	top: 0;
-	left: 0;
-	background-color: rgba(5, 173, 153, 0.8);
-	display: none;
-	justify-content: center;
-	align-items: center;
-	z-index: 100;
-}
-
-#btn-modal:checked~.container-modal {
-	display: flex;
-}
-
-.content-modal {
-	width: 100%;
-	max-width: 400px;
-	padding: 20px;
-	background: #44A08D;
-	/* fallback for old browsers */
-	background: -webkit-linear-gradient(to top, #093637, #44A08D);
-	/* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to top, #093637, #44A08D);
-	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-	border-radius: 4px;
-}
-
-.content-modal h2 {
-	margin-bottom: 15px;
-	color: white;
-	text-shadow: -1px -1px 0 #00fe99,
-		1px -1px 0 #000200,
-		-1px -1px 0 #000100,
-		1px -1px 0 #000900;
-	text-align: center;
-}
-
-.content-modal p {
-	padding: 15px 0px;
-	border-bottom: 1px solid #000000;
-	color: white;
-	text-shadow: -1px -1px 0 #060606,
-		1px -1px 0 #000200,
-		-1px -1px 0 #000100,
-		1px -1px 0 #000900;
-	text-align: center;
-}
-
-.content-modal .btn-cerrar {
-	width: 100%;
-	margin-top: 15px;
-	display: flex;
-	justify-content: flex-end;
-}
-
-.content-modal .btn-cerrar label {
-	padding: 7px 10px;
-	background: #119177;
-	color: #fff;
-	border-radius: 4px;
-	cursor: pointer;
-	transition: all 300ms ease;
-}
-
-.content-modal .btn-cerrar label:hover {
-	background: #10ccb3;
-	box-shadow: 0 0 10px #10ccb3, 0 0 40px #10ccb3, 0 0 80px #10ccb3;
-}
-
-.cerrar-modal {
-	width: 100%;
-	height: 100vh;
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: -1;
-}
-
-@media screen and (max-width:800px) {
-	.content-modal {
-		width: 90%;
-	}
-}
-
-/*:::Fin Ventana Modal:::*/

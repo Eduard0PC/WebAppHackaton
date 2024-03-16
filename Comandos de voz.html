@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles2.css">
+    <title>Comandos de Voz</title>
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <div class="logo">
+            <img src="data/logo1.webp">
+        </div>
+        <nav class="menu">
+            <!--<a target="_blank" href="index.html">
+                <img src="img/icon1.png">Inicio</a>-->
+            <label for="btn-modal">
+                <a>Cerrar Sesión</a>
+        </nav>
+    </div>
+</header>
+
+<main class="content">
+    <h1>Reconocimiento de Voz</h1>
+    <p>Haz clic en el botón y habla para dar un comando por voz.</p>
+    
+    <button id="startButton">Iniciar Reconocimiento de Voz</button>
+    <button id="pauseButton">Pausar Reconocimiento de Voz</button>
+
+    <div id="respuestas"></div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if ('webkitSpeechRecognition' in window) {
+    var recognition = new webkitSpeechRecognition();
+    var respuestasContainer = document.getElementById('respuestas');
+    
+    recognition.continuous = true; // Reconocimiento continuo
+    recognition.interimResults = true; // Obtener resultados parciales mientras se habla
+
+    recognition.lang = 'es'; // Establecer el idioma (puedes cambiar 'es' a otro idioma)
+    
+    recognition.onresult = function(event) {
+      var interim_transcript = '';
+      for (var i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          // Si es un resultado final, ejecutar la función de procesamiento de comandos
+          procesarComando(event.results[i][0].transcript);
+        } else {
+          // Si es un resultado parcial, puedes mostrarlo en tiempo real si lo deseas
+          interim_transcript += event.results[i][0].transcript;
+        }
+      }
+      // Puedes mostrar resultados parciales si lo deseas
+      console.log(interim_transcript);
+    };
+
+    document.getElementById('startButton').addEventListener('click', function() {
+      recognition.start(); // Iniciar el reconocimiento de voz
+    });
+
+    document.getElementById('pauseButton').addEventListener('click', function() {
+      recognition.abort(); // Pausar el reconocimiento de voz
+    });
+  }
+});
+
+// Función para procesar el comando reconocido
+function procesarComando(comando) {
+  // Agregar la respuesta debajo del botón
+  var respuestasContainer = document.getElementById('respuestas');
+  var respuestaElement = document.createElement('p');
+  respuestaElement.textContent = 'Comando reconocido: ' + comando;
+  respuestasContainer.appendChild(respuestaElement);
+
+  // Llamar a la función que permite modificar el comportamiento
+  ejecutarAccion(comando);
+}
+
+// Función para ejecutar diferentes acciones según el comando reconocido
+function ejecutarAccion(comando) {
+  // Aquí puedes implementar diferentes acciones según el comando reconocido
+  // Por ejemplo:
+  if (comando.includes('Abrir')) {
+    abrirCamara();
+  } else if (comando.includes('abrir página')) {
+    abrirPagina();
+  } else {
+    // Si no coincide con ningún comando específico, puedes manejarlo aquí
+    console.log('Comando no reconocido: ' + comando);
+  }
+}
+
+// Ejemplo de acción: abrir la cámara y tomar una foto
+function abrirCamara() {
+  // Acceder a la cámara y tomar una foto
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function(stream) {
+      var video = document.createElement('video');
+      document.body.appendChild(video);
+      video.srcObject = stream;
+      video.play();
+
+      // Tomar foto al hacer clic en el video
+      video.addEventListener('click', function() {
+        var canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        var context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Mostrar la foto tomada en el documento
+        var img = new Image();
+        img.src = canvas.toDataURL('image/png');
+        document.body.appendChild(img);
+
+        // Detener la reproducción de la cámara y limpiar los elementos creados
+        video.pause();
+        stream.getTracks().forEach(track => track.stop());
+        document.body.removeChild(video);
+        document.body.removeChild(canvas);
+      });
+    })
+    .catch(function(err) {
+      console.log("Error al acceder a la cámara: " + err);
+    });
+}
+
+// Ejemplo de acción: abrir una página
+function abrirPagina() {
+  console.log('Abriendo página...');
+  // Aquí puedes escribir el código para abrir una página web
+}
+</script>
+
+</body>
+</html>

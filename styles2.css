@@ -1,0 +1,66 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    overflow: hidden; /* Evita que los elementos floten fuera del encabezado */
+}
+
+.logo {
+    float: left; /* Hace que el logo se coloque a la izquierda */
+}
+
+.logo img {
+    height: 50px;
+    width: auto;
+}
+
+.menu {
+    float: right; /* Hace que el menú se coloque a la derecha */
+}
+
+.menu a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0 10px;
+}
+
+.content {
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#respuestas {
+    margin-top: 20px;
+    text-align: left;
+}

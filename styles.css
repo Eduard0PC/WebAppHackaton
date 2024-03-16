@@ -212,8 +212,11 @@ body {
 		height: auto;
 		padding-right: 23px;
 		padding-left: 23px;
-		padding-top: 5px;
-		padding-bottom: 10px;
+		padding-top: 0px;
+		padding-bottom: 2px;
+		display: flex; 
+    	justify-content: space-between; 
+    	align-items: center; 
 	}
 
 	.container .btn-menu,

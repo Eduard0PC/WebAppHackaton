@@ -85,7 +85,7 @@ function ejecutarAccion(comando) {
   // Por ejemplo:
   if (comando.includes('Abrir')) {
     abrirCamara();
-  } else if (comando.includes('abrir página')) {
+  } else if (comando.includes('cerrar')) {
     abrirPagina();
   } else {
     // Si no coincide con ningún comando específico, puedes manejarlo aquí
@@ -95,16 +95,15 @@ function ejecutarAccion(comando) {
 
 // Ejemplo de acción: abrir la cámara y tomar una foto
 function abrirCamara() {
-  // Acceder a la cámara y tomar una foto
+  // Acceder a la cámara y tomar una foto instantánea
   navigator.mediaDevices.getUserMedia({ video: true })
     .then(function(stream) {
       var video = document.createElement('video');
       document.body.appendChild(video);
       video.srcObject = stream;
-      video.play();
 
-      // Tomar foto al hacer clic en el video
-      video.addEventListener('click', function() {
+      // Tomar foto al cargar la cámara
+      video.addEventListener('loadedmetadata', function() {
         var canvas = document.createElement('canvas');
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
@@ -116,12 +115,23 @@ function abrirCamara() {
         img.src = canvas.toDataURL('image/png');
         document.body.appendChild(img);
 
+        // Preguntar si el usuario desea subir la foto
+        var respuesta = prompt('¿Deseas subir esta foto? (Sí/No)');
+        if (respuesta && respuesta.toLowerCase() === 'sí') {
+          // Aquí puedes agregar la lógica para subir la foto
+          console.log('Foto subida correctamente.');
+        } else {
+          console.log('Foto no subida.');
+        }
+
         // Detener la reproducción de la cámara y limpiar los elementos creados
         video.pause();
         stream.getTracks().forEach(track => track.stop());
         document.body.removeChild(video);
         document.body.removeChild(canvas);
       });
+
+      video.play();
     })
     .catch(function(err) {
       console.log("Error al acceder a la cámara: " + err);
